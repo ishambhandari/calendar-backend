@@ -19,4 +19,16 @@ class EventsSerializer(serializers.ModelSerializer):
 
         if end_time and start_time and end_time <= start_time:
             raise serializers.ValidationError("end_time must be after start_time")
+
+
+        if start_time and end_time:
+            overlapping_events = Events.objects.filter(
+                start_time__lt=end_time,
+                end_time__gt=start_time
+            )
+            if self.instance:  
+                overlapping_events = overlapping_events.exclude(id=self.instance.id)
+            if overlapping_events.exists():
+                raise serializers.ValidationError("The event overlaps with existing events.")
+
         return data

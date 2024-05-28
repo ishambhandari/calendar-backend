@@ -15,13 +15,10 @@ class SignupView(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
 
     def perform_create(self, serializer):
-        # Extract password from request data
         password = self.request.data.get('password')
 
-        # Hash the password
         hashed_password = make_password(password)
 
-        # Set the hashed password in the serializer
         serializer.save(password=hashed_password)
 
 class LoginView(APIView):

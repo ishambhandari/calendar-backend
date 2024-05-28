@@ -7,6 +7,7 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name = 'signup'),
     path('login/', LoginView.as_view(), name = 'login'),
     path('event/', EventsListCreateView.as_view(), name = 'event'),
+    path('event/<int:pk>/', EventsRetrieveUpdateDestroyView.as_view(), name='event-detail'),
     path('alter_event/', EventsRetrieveUpdateDestroyView.as_view(), name = 'alter_event'),
 
 ]
