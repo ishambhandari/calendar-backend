@@ -2,9 +2,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# class CustomUser(AbstractUser):
-#     pass
-
 
 class Events(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
