@@ -6,8 +6,8 @@ from .views import SignupView, LoginView, EventsListCreateView, EventsRetrieveUp
 urlpatterns = [
     path('signup/', SignupView.as_view(), name = 'signup'),
     path('login/', LoginView.as_view(), name = 'login'),
-    path('event/', EventsListCreateView.as_view(), name = 'event'),
-    path('event/<int:pk>/', EventsRetrieveUpdateDestroyView.as_view(), name='event-detail'),
+    path('events/', EventsListCreateView.as_view(), name = 'event'),
+    path('events/<int:pk>/', EventsRetrieveUpdateDestroyView.as_view(), name='event-detail'),
     path('alter_event/', EventsRetrieveUpdateDestroyView.as_view(), name = 'alter_event'),
 
 ]
