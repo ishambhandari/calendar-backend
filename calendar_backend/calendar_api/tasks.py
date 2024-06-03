@@ -1,27 +1,21 @@
 from celery import shared_task
 from django.core.mail import send_mail
-from django.utils import timezone
 from django.conf import settings
-# from datetime import timedelta
-
-from django.utils import timezone
+from .models import Events
 
 @shared_task
-def send_event_notifications(events_id):
-    from .models import Events
-    from_email = settings.EMAIL_HOST_USER
+def send_event_notification(event_id):
     try:
-        events = Events.objects.get(id=events_id)
-        # events = Events.objects.filter(start_time__range=[now, start_window])
-        subject = "Events Reminder"
-        message = f"Reminder: Your work {work.title} starts soon"
+        event = Events.objects.get(id=event_id)
+        subject = "Event Reminder"
+        message = f"Reminder: Your event '{event.title}' starts soon"
         send_mail(
-                subject,
-                message,
-                from_email,
-                [events.user.email],
-                )
-    except:
-        print("Error!")
-
-
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [event.created_by.email],  # Sending to the creator of the event
+        )
+    except Events.DoesNotExist:
+        print("Event not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
