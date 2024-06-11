@@ -7,5 +7,8 @@ from .tasks import send_event_notification
 @receiver(post_save, sender=Events)
 def schedule_email_reminder(sender, instance, created, **kwargs):
     if created:
+        current_time = timezone.now()
+        print('this is ')
         reminder_time = instance.start_time - timezone.timedelta(minutes=10)
-        send_event_notification.apply_async((instance.id,), eta=reminder_time)
+        print("reminder time", reminder_time)
+        send_event_notification.apply_async((instance.id, instance.created_by.email), eta=reminder_time)
